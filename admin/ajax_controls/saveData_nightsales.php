@@ -16,7 +16,7 @@ $barId = $_POST['barId'];
 
 $current_time = date('y-m-d');
 
-$check = selectAll('presales_bottle_service', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => $bar]);
+$check = selectAll('night_bottle_service', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => $bar]);
 
 $num = count($check);
 
@@ -43,7 +43,7 @@ $id = $row[9];
 
       
       $inventory = selectOne('inventory', ['Product' => $row[0], 'Type' => $row[1]]);
-      $runCheck = selectOne('presales_bottle_service', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => $bar, 'Product' => $row[0], 'Type' => $row[1] ]);
+      $runCheck = selectOne('night_bottle_service', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => $bar, 'Product' => $row[0], 'Type' => $row[1] ]);
       $quant = $inventory['Quantity'];
       $idInv = $inventory['id'];
       $bot = $runCheck['Bottles_sold'] +  $runCheck['Bottles_sold_deal'];
@@ -53,10 +53,10 @@ $id = $row[9];
            $update_inventory = update('inventory', $idInv, ['Quantity' => $newInventory]);
 
            if($update_inventory){
-            $insert= insert('presales_bottle_service', $data);
+            $insert= insert('night_bottle_service', $data);
             if($insert){
               echo 'success';
-              delete('presales_bottle_service', $id);
+              delete('night_bottle_service', $id);
             }
            }else{
                echo 'error1';
@@ -67,10 +67,10 @@ $id = $row[9];
            $update_inventory = update('inventory', $idInv, ['Quantity' => $newInventory]);
 
            if($update_inventory){
-            $insert= insert('presales_bottle_service', $data);
+            $insert= insert('night_bottle_service', $data);
             if($insert){
               echo 'success';
-              delete('presales_bottle_service', $id);
+              delete('night_bottle_service', $id);
             }
            }else{
                echo 'error1';
@@ -102,7 +102,7 @@ $id = $row[9];
             
         ];
     
-        $result = insert('presales_bottle_service', $data);
+        $result = insert('night_bottle_service', $data);
     
         if($result){
               

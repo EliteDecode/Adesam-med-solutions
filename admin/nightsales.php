@@ -7,20 +7,20 @@ require('includes/database/db_controllers.php');
 if(isset($_GET['date'])){
     $date = $_GET['date'];
     $userdetails = selectAll('inventory');
-    $distinct_totals =selectAllDistinct2('presales_bottle_service', 'Total_profit', ['DateReg' => $date]);
-    $distinct_totalsCompany =selectAllDistinct2('presales_bottle_service', 'Profit_company', ['DateReg' => $date]);
-    $distinct_totalsAttendant =selectAllDistinct2('presales_bottle_service', 'Profit_attendant', ['DateReg' => $date]);
+    $distinct_totals =selectAllDistinct2('night_bottle_service', 'Total_profit', ['DateReg' => $date]);
+    $distinct_totalsCompany =selectAllDistinct2('night_bottle_service', 'Profit_company', ['DateReg' => $date]);
+    $distinct_totalsAttendant =selectAllDistinct2('night_bottle_service', 'Profit_attendant', ['DateReg' => $date]);
     $grandtotal = 0;
-$users = selectAllDistinct('presales_bottle_service', 'BarID', 'Bar' ,['DateReg' => $date]);
+$users = selectAllDistinct('night_bottle_service', 'BarID', 'Bar' ,['DateReg' => $date]);
 $formated_date = date("F jS, Y", strtotime($date));
 }else{
     $date = date('y-m-d');
     $userdetails = selectAll('inventory');
-    $distinct_totals =selectAllDistinct2('presales_bottle_service', 'Total_profit', ['DateReg' => $date]);
-    $distinct_totalsCompany =selectAllDistinct2('presales_bottle_service', 'Profit_company', ['DateReg' => $date]);
-    $distinct_totalsAttendant =selectAllDistinct2('presales_bottle_service', 'Profit_attendant', ['DateReg' => $date]);
+    $distinct_totals =selectAllDistinct2('night_bottle_service', 'Total_profit', ['DateReg' => $date]);
+    $distinct_totalsCompany =selectAllDistinct2('night_bottle_service', 'Profit_company', ['DateReg' => $date]);
+    $distinct_totalsAttendant =selectAllDistinct2('night_bottle_service', 'Profit_attendant', ['DateReg' => $date]);
     $grandtotal = 0;
-$users = selectAllDistinct('presales_bottle_service', 'BarID', 'Bar' ,['DateReg' => $date]);
+$users = selectAllDistinct('night_bottle_service', 'BarID', 'Bar' ,['DateReg' => $date]);
 $formated_date = date("F jS, Y", strtotime($date));
 }
 
@@ -112,7 +112,7 @@ tbody tr td {
 
                             <div class="flex space-x-1 items-center">
                                 <img src="../assets/images/ras-lending.png" alt="" width="25px">
-                                <p class="font-bold uppercase text-md "> All PreSales Record</p>
+                                <p class="font-bold uppercase text-md "> All Night Sales Record</p>
                             </div>
                         </div>
                         <div>
@@ -186,18 +186,18 @@ tbody tr td {
 
                                     if(isset($_GET['date'])){
                                         $date = $_GET['date'];
-                                        $bottles_sold = selectSumDouble('presales_bottle_service', 'Bottles_sold', 'Bottles_sold_deal', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $total_amount = selectSum('presales_bottle_service', 'Total_profit', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $profit_comp = selectSum('presales_bottle_service', 'Profit_company', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $profit_attd = selectSum('presales_bottle_service', 'Profit_attendant', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $bottles_sold = selectSumDouble('night_bottle_service', 'Bottles_sold', 'Bottles_sold_deal', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $total_amount = selectSum('night_bottle_service', 'Total_profit', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $profit_comp = selectSum('night_bottle_service', 'Profit_company', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $profit_attd = selectSum('night_bottle_service', 'Profit_attendant', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
                                         
                                         
                                     }else{
                                         $date = date('y-m-d');
-                                        $bottles_sold = selectSumDouble('presales_bottle_service', 'Bottles_sold', 'Bottles_sold_deal', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $total_amount = selectSum('presales_bottle_service', 'Total_profit', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $profit_comp = selectSum('presales_bottle_service', 'Profit_company', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
-                                        $profit_attd = selectSum('presales_bottle_service', 'Profit_attendant', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $bottles_sold = selectSumDouble('night_bottle_service', 'Bottles_sold', 'Bottles_sold_deal', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $total_amount = selectSum('night_bottle_service', 'Total_profit', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $profit_comp = selectSum('night_bottle_service', 'Profit_company', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
+                                        $profit_attd = selectSum('night_bottle_service', 'Profit_attendant', ['Product' => $ud['Product'], 'DateReg' => $date, 'Type' => $ud['Type']]);
                                         
                                     }
                                     
@@ -304,13 +304,13 @@ tbody tr td {
                 $bar = $user['Bar'];
                 if(isset($_GET['date'])){
                     $date = $_GET['date'];
-                    $userdetails = selectAll('presales_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
-                    $total_profit = selectOne('presales_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
+                    $userdetails = selectAll('night_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
+                    $total_profit = selectOne('night_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
                    
                 }else{
                     $date = date('y-m-d');
-                    $userdetails = selectAll('presales_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
-                    $total_profit = selectOne('presales_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
+                    $userdetails = selectAll('night_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
+                    $total_profit = selectOne('night_bottle_service', ['DateReg' => $date, 'BarID' => $barId, 'Bar' => $bar]);
                    
                 }
                
@@ -415,7 +415,7 @@ tbody tr td {
 
         if (date_input != "") {
             window.location =
-                `presales.php?date=${date_input}`;
+                `nightsales.php?date=${date_input}`;
         } else {
             $("#date_input").removeClass('form-control').addClass('form-control is-invalid');
         }

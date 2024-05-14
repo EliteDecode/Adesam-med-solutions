@@ -2,6 +2,7 @@
 
 include ('includes/header.php');
 require('admin/includes/database/db_controllers.php');
+$barId = $_SESSION['users'];
 
 
 
@@ -20,14 +21,29 @@ require('admin/includes/database/db_controllers.php');
                 </div>
                 <div class="row mt-5">
                     <?php  if(isset($_SESSION['users'])): ?>
-                    <a href="bottle_service.php?bar=bar1" class='col-md-4 mb-5 '>
+                    <?php   
+                        $current_time = date('y-m-d');
+                        $check = selectAll('saved_data_shooters', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => 'bar1' ]);
+                        $num = count($check);
+
+                        if($num >= 1): ?>
+                    <a href="shooters.php?measurement=ounce&bar=bar1&status=saved&date=<?php echo $current_time ?>"
+                        class='col-md-4 mb-5 '>
                         <div class=" flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Slice 1</h2>
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar1&route=bottle_service" class='col-md-4 mb-5'>
+                    <a href="shooters.php?measurement=ounce&bar=bar1" class='col-md-4 mb-5 '>
+                        <div class=" flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
+                            style='height: 15vh;'>
+                            <h2 class='flex justify-center font-bold text-lg uppercase'>Slice 1</h2>
+                        </div>
+                    </a>
+                    <?php endif; ?>
+                    <?php else: ?>
+                    <a href="login.php?bar=bar1&route=shooters" class='col-md-4 mb-5'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Slice 1</h2>

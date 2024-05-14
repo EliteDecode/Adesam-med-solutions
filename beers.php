@@ -72,31 +72,56 @@ if(isset($_GET['status']) && isset($_GET['date'])){
     <link rel="stylesheet" href="lib/css/jquery.dataTables.min.css" />
 </head>
 
+<style>
+.logo img {
+    width: 60%
+}
+
+.link {
+    width: 50%
+}
+
+@media (min-width: 0px) and (max-width: 575px) {
+    .logo img {
+        width: 100%
+    }
+
+    #postTable {
+        width: 1000px !important;
+    }
+
+    .link {
+        width: 70%
+    }
+}
+</style>
+
 <body>
     <div style="background-color: #fafafa" class="min-h-screen">
         <div class="container">
             <div class="header flex justify-between items-center py-2">
-                <a href="index.php">
+                <a href="index.php" class=' link'>
                     <div class="logo">
                         <img src="assets/images/logo.png" alt="" width="15px" />
                     </div>
                 </a>
-                <div class="flex space-x-4 items-center">
+                <div class="flex   space-x-4 items-center">
                     <div class="flex items-center space-x-2">
                         <i class="fa fa-user-md"></i>
                         <h2 class="text-xl mb-1 font-semibold"><?php echo $name ?></h2>
                     </div>
                     <a href="barroll.php?bar=<?php echo $bar ?>">
-                        <div class="flex items-center space-x-2">
-                            <img src="assets/images/back-arrow.png" alt="" width="25px" />
-                            <h3 class="font-semibold text-lg">Back</h3>
-                        </div>
+
+                        <img src="assets/images/back-arrow.png" alt="" width="25px" />
+
+
                     </a>
                 </div>
             </div>
             <div class="row flex justify-center">
-                <div class="col-md-10 col-lg-10 col-xl-10 " style="padding: 0% 2%">
-                    <div class="p-3 mb-2 flex bg-white items-center justify-between shadow-md rounded-lg">
+                <div class="col-md-12 col-lg-12 col-xl-12 " style="padding: 0% 2%">
+                    <div
+                        class="p-3 mb-2 flex flex-wrap space-y-3 bg-white items-center justify-between shadow-md rounded-lg">
                         <div class="flex items-center space-x-2">
                             <img src="assets/images/beer2.png" alt="" width="40px" />
                             <h3 class="font-semibold text-xl uppercase">Beers</h3>
@@ -151,107 +176,119 @@ if(isset($_GET['status']) && isset($_GET['date'])){
 
                         </div>
                     </div>
-                    <div class="px-5 py-3 shadow-md bg-white rounded-lg border-2 border-green-100" id='msg'>
-                        <h2 class='pb-3 text-md font-bold'>Data recorded on <?php echo $formated_date; ?></h2>
-                        <form action="" id='post-form' onsubmit='return false'>
-                            <table class="table table-hover border" id="postTable" width="100%">
-                                <thead class="" style="border: 1px solid gray !important">
-                                    <tr>
-                                        <th scope="col">S/N</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col" class='hidden'>Price per can($)</th>
-                                        <th scope="col">Bottles Sold</th>
-                                        <th scope="col" class='hidden'>Price($)</th>
-                                        <th scope="col" class='hidden'>Gross Sale($)</th>
-                                        <th scope="col" class='hidden'>Cog Used($)</th>
-                                        <th scope="col" class='hidden'>Profit($)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($posts as $key=>$post): ?>
-                                    <tr>
-                                        <th scope="row"><?php echo $key + 1  ?></th>
-                                        <td><input type="text" readonly class='form-control font-semibold' value='<?php if(isset($_GET['status'])) {
+                    <div class="px-2 py-3 shadow-md bg-white rounded-lg border-2 border-green-100" id='msg'>
+                        <h2 class=' pb-3 text-md font-bold'>Data recorded on <?php echo $formated_date; ?></h2>
+                        <div style='overflow:scroll'>
+                            <form action="" id='post-form' onsubmit='return false'>
+                                <table class="table table-hover border" id="postTable">
+                                    <thead class="" style="border: 1px solid gray !important">
+                                        <tr>
+                                            <th scope="col">S/N</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col" class='hidden'>Price per can($)</th>
+                                            <th scope="col">Q/B</th>
+                                            <th scope="col">Q/A</th>
+                                            <th scope="col" class='hidden'>Price($)</th>
+                                            <th scope="col" class='hidden'>Gross Sale($)</th>
+                                            <th scope="col" class='hidden'>Cog Used($)</th>
+                                            <th scope="col" class='hidden'>Profit($)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($posts as $key=>$post): ?>
+                                        <tr>
+                                            <th scope="row"><?php echo $key + 1  ?></th>
+                                            <td><input type="text" readonly class='form-control font-semibold' value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Product'];
                                               }else{
                                                     echo $post['Product'];
                                                 }  ?>' id='product' name='product[]'>
-                                        </td>
-                                        <td class="hidden">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                            </td>
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Price_per_can'];
                                               }else{
                                                     echo $post['Price_per_can'];
                                                 }  ?>' placeholder="$2" readonly id='Price_per_can'
-                                                name='price_per_can[]' />
-                                        </td>
-                                        <td class="">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Bottles_sold'];
+                                                    name='price_per_can[]' />
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                echo $post['Quantity_Before'];
                                               }else{
                                                     echo '0';
                                                 }  ?>' placeholder="Bottles sold" onblur="calculateQuantityblur(event)"
-                                                onkeypress="calculateQuantity(event)" id='Bottles_sold'
-                                                name='bottles_sold[]' />
-                                        </td>
+                                                    onkeypress="calculateQuantity(event)" id='Quantity_Before'
+                                                    name='Quantity_Before[]' />
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                echo $post['Quantity_After'];
+                                              }else{
+                                                    echo '0';
+                                                }  ?>' placeholder="Bottles sold" onblur="calculateQuantityblur(event)"
+                                                    onkeypress="calculateQuantity(event)" id='Quantity_After'
+                                                    name='Quantity_After[]' />
+                                            </td>
 
-                                        <td class="hidden">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Price_of_drink'];
                                               }else{
                                                 echo $post['Price_of_drink'];
                                                 }  ?>' placeholder="$6.8" readonly id='price_of_drink'
-                                                name='price_of_drink[]' />
-                                        </td>
+                                                    name='price_of_drink[]' />
+                                            </td>
 
-                                        <td class="hidden">
-                                            <input type="number" class="form-control" name="gross_sale[]"
-                                                class="form-control" value='<?php if(isset($_GET['status'])) {
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" name="gross_sale[]"
+                                                    class="form-control" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Gross_sale'];
                                               }else{
                                                 echo '0';
                                                 }  ?>' readonly id='gross_sale' />
-                                        </td>
-                                        <td class="hidden">
-                                            <input type="number" name="cog_used[]" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                            </td>
+                                            <td class="hidden">
+                                                <input type="number" name="cog_used[]" class="form-control" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Cog_used'];
                                               }else{
                                                 echo '0';
                                                 }  ?>' readonly id='cog_used' />
-                                        </td>
-                                        <td class="hidden">
-                                            <input type="number" value='<?php if(isset($_GET['status'])) {
+                                            </td>
+                                            <td class="hidden">
+                                                <input type="number" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['Profit'];
                                               }else{
                                                 echo '0';
                                                 }  ?>' name="total[]" class="form-control  total_input" readonly
-                                                id='total_profit' />
-                                        </td>
-                                        <td class='hidden'>
-                                            <input type="number" value='<?php if(isset($_GET['status'])) {
+                                                    id='total_profit' />
+                                            </td>
+                                            <td class='hidden'>
+                                                <input type="number" value='<?php if(isset($_GET['status'])) {
                                                 echo $post['id'];
                                               }else{
                                                 echo '0';
                                                 }  ?>' name="id[]" class="form-control  " readonly id='' />
+                                            </td>
+
+                                        </tr>
+
+                                        <?php endforeach; ?>
+                                        <td colspan='6' class='font-bold hidden'></td>
+                                        <td colspan='' class='font-bold hidden aliign-right'>Total Profit ($):</td>
+                                        <td colspan='' class='font-bold hidden aliign-right flex border'>
+                                            $<div id='TotalValue' class='  w-100'>
+                                                <?php if(isset($_GET['status'])){ echo $total_profit['Total_profit']; }else{ echo '0';}?>
+                                            </div>
                                         </td>
-
-                                    </tr>
-
-                                    <?php endforeach; ?>
-                                    <td colspan='6' class='font-bold hidden'></td>
-                                    <td colspan='' class='font-bold hidden aliign-right'>Total Profit ($):</td>
-                                    <td colspan='' class='font-bold hidden aliign-right flex border'>
-                                        $<div id='TotalValue' class=' hidden w-100'>
-                                            <?php if(isset($_GET['status'])){ echo $total_profit['Total_profit']; }else{ echo '0';}?>
-                                        </div>
-                                    </td>
-                                    <input type="hidden" value='<?php echo $barId ?>' name="" class="form-control  "
-                                        readonly id='barId' />
-                                    <input type="hidden" value='<?php echo $bar ?>' name="" class="form-control  "
-                                        readonly id='bar' />
-                                </tbody>
-                            </table>
-                        </form>
+                                        <input type="hidden" value='<?php echo $barId ?>' name="" class="form-control  "
+                                            readonly id='barId' />
+                                        <input type="hidden" value='<?php echo $bar ?>' name="" class="form-control  "
+                                            readonly id='bar' />
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -267,7 +304,7 @@ if(isset($_GET['status']) && isset($_GET['date'])){
             scrollX: true,
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "E.g. John Doe",
+                searchPlaceholder: "E.g. Don Julio",
             },
         });
     });
@@ -293,11 +330,11 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var td = target.parentNode;
         var tr = td.parentNode;
         var pricePerCan = tr.getElementsByTagName("input")[1].value;
-        var priceOfDrink = tr.getElementsByTagName("input")[3].value;
-        var totalDrinks = tr.getElementsByTagName("input")[2].value;
+        var priceOfDrink = tr.getElementsByTagName("input")[4].value;
+        var totalDrinks = (tr.getElementsByTagName("input")[2].value - tr.getElementsByTagName("input")[3].value);
 
-        var grossSale = tr.getElementsByTagName("input")[4];
-        var cogUsed = tr.getElementsByTagName("input")[5];
+        var grossSale = tr.getElementsByTagName("input")[5];
+        var cogUsed = tr.getElementsByTagName("input")[6];
         grossSale.value = totalDrinks * priceOfDrink;
         cogUsed.value = totalDrinks * pricePerCan;
     }
@@ -307,10 +344,10 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var td = target.parentNode;
         var tr = td.parentNode;
 
-        var grossSale = parseFloat(tr.getElementsByTagName("input")[4].value);
-        var cogUsed = parseFloat(tr.getElementsByTagName("input")[5].value);
+        var grossSale = parseFloat(tr.getElementsByTagName("input")[5].value);
+        var cogUsed = parseFloat(tr.getElementsByTagName("input")[6].value);
 
-        tr.getElementsByTagName("input")[6].value = (grossSale - cogUsed).toFixed(2);
+        tr.getElementsByTagName("input")[7].value = (grossSale - cogUsed).toFixed(2);
     }
 
     function calculateTotalProfit(event) {

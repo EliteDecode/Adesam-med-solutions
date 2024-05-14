@@ -29,7 +29,7 @@ if(isset($_GET['bar'])){
         <div class="col-md-6 col-sm-12" style="background-color: #fafafa">
             <div class="container p-5">
                 <div class="logo">
-                    <img src="assets/images/logo.png" alt="" style='width: 50%' />
+                    <a href="index.php"> <img src="assets/images/logo.png" alt="" style='width: 50%' /></a>
                 </div>
                 <div class="text mt-5">
                     <h2 class="text-3xl mb-1 font-semibold">Hi <?php echo $name ?> 👋</h2>

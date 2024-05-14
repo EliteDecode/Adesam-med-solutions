@@ -34,7 +34,7 @@ if(isset($_GET['bar'])){
                 <div class="logo mt-8">
                     <a href="index.php">
                         <div class="logo w-100">
-                            <img src="assets/images/logo.png" alt="" style='width: 50%' />
+                            <a href="index.php"> <img src="assets/images/logo.png" alt="" style='width: 50%' /></a>
                         </div>
                     </a>
                 </div>
@@ -140,13 +140,10 @@ function LoginUser() {
                         bgColor: '#dc2626',
                         textColor: 'white',
                         position: 'top-left',
-
-
                     })
                 } else if (data == 'success') {
                     var route = $('#route').val()
-                    if (route === '') {
-
+                    if (route === 'barrolls') {
                         $.toast({
                             heading: 'Congratulations',
                             text: 'You have logged in successfully',
@@ -154,9 +151,20 @@ function LoginUser() {
                             bgColor: '#15803d',
                             textColor: 'white',
                             position: 'top-left',
-
                             afterHidden: function() {
                                 window.location.assign(`barroll.php?bar=${target}`)
+                            },
+                        })
+                    } else if (route === 'shooters') {
+                        $.toast({
+                            heading: 'Congratulations',
+                            text: 'You have logged in successfully',
+                            showHideTransition: 'slide',
+                            bgColor: '#15803d',
+                            textColor: 'white',
+                            position: 'top-left',
+                            afterHidden: function() {
+                                window.location.assign(`shooters_bars.php?bar=${target}`)
                             },
                         })
                     } else {
@@ -167,7 +175,6 @@ function LoginUser() {
                             bgColor: '#15803d',
                             textColor: 'white',
                             position: 'top-left',
-
                             afterHidden: function() {
                                 window.location.assign(`bottle_service.php?bar=${target}`)
                             },

@@ -1,14 +1,50 @@
 <?php  
-include('includes/header.php');
 
 $target;
-
+$date = date('y-m-d');
 if(isset($_GET['target'])){
     $target = $_GET['target'];
 }
 
 
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Boostrap and Tailwind css Library Link-->
+    <link rel="stylesheet" href="../lib/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../lib/css/tailwind.min.css" />
+    <link rel="icon" href="../assets/images/logo-nav.png" type="image/x-icon">
+
+    <!--Font Awesome-->
+    <link rel="stylesheet" href="../lib/fonts/css/all.css" />
+
+    <!--Carousel Library-->
+    <link rel="stylesheet" href="../lib/css/animate.css" />
+
+    <!--global-->
+    <link rel="stylesheet" href="../styles/css/global.css" />
+
+    <!--Css-->
+    <link rel="stylesheet" href="../styles/css/index.css" />
+
+    <!--tachycons-->
+    <link rel="stylesheet" href="../lib/css/tachyons.min.css" />
+    <!--DataTables --->
+    <link rel="stylesheet" href="../lib/css/jquery.dataTables.min.css" />
+
+    <!--textarea styles-->
+    <link rel="stylesheet" href="../lib/css/editor.css">
+    <link rel="stylesheet" href="../lib/css/jquery.toast.css">
+
+    <title>Barbucks Admin</title>
+</head>
 <style>
 .form-box {
     width: 83%;
@@ -54,6 +90,7 @@ if(isset($_GET['target'])){
                             onclick='LoginUser()'>LOGIN</button>
                     </div>
                     <input type="hidden" id='target' value='<?php echo $target ?>'>
+                    <input type="hidden" id='date' value='<?php echo $date ?>'>
                 </form>
             </div>
         </div>
@@ -70,6 +107,7 @@ function LoginUser() {
     var adminId = $("#adminId").val();
     var password = $("#password").val();
     var target = $('#target').val();
+    var date = $('#date').val();
 
     if (adminId == "") {
         $("#adminId").removeClass('form-control').addClass('form-control is-invalid');
@@ -136,9 +174,9 @@ function LoginUser() {
 
                         afterHidden: function() {
                             if (target == 'barroll') {
-                                window.location.assign(`index.php`)
+                                window.location.assign(`index.php?date=${date}`)
                             } else {
-                                window.location.assign(`index.php`)
+                                window.location.assign(`index.php?date=${date}`)
                             }
                         },
                     })

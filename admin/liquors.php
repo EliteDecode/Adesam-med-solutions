@@ -2,7 +2,7 @@
 require('includes/header.php');
 require('includes/database/db_controllers.php');
 
- $posts = selectAll2('liquors');
+ $posts = selectAll('inventory', ['Category' => 'Liquor']);
 
 ?>
 
@@ -87,13 +87,7 @@ tbody tr td {
                                 <p class="font-bold uppercase text-md "> All Liquors Available</p>
                             </div>
                         </div>
-                        <div>
-                            <a href="add_liquors.php">
-                                <button class="px-2 py-2 bg-red-300 rounded-md text-white">
-                                    <img src="../assets/images/add.png" alt="" width="25px">
-                                </button>
-                            </a>
-                        </div>
+
                     </div>
                     <table class="table table-bordered  table-hover" id="postTable" style="width:100%; ">
                         <thead>
@@ -101,11 +95,12 @@ tbody tr td {
 
                                 <th scope="col">S/N</th>
                                 <th scope="col">Product</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Q/Ounce</th>
+                                <th scope="col">Q/Bottles</th>
                                 <th scope="col">Price per can ($)</th>
                                 <th scope="col">Price of drink ($)</th>
 
-                                <th scope="col">Edit</th>
-                                <th scope="col">Delete</th>
 
                             </tr>
                         </thead>
@@ -116,24 +111,13 @@ tbody tr td {
                             <tr>
 
                                 <th scope="row"><?php echo $key + 1  ?></th>
-
                                 <td><?php echo $post['Product']  ?></td>
+                                <td><?php echo $post['Type']  ?></td>
+                                <td><?php echo number_format($post['Quantity'])  ?></td>
+                                <td><?php echo number_format($post['Quantity']/$post['Type'])  ?></td>
                                 <td><?php echo $post['Price_per_can']  ?></td>
                                 <td><?php echo $post['Price_of_drink'] ?></td>
 
-
-                                <td><a href="edit_liquors.php?id=<?php echo $post['id'] ?>"><button
-                                            id="<?php echo $post['id'] ?>"
-                                            class="px-2 py-1 bg-blue-200 rounded-lg flex space-x-1 items-center"
-                                            onclick='editid(this)'><img src="../assets/images/editing.png" alt=""
-                                                style="width:15px;"><span class="font-semibold"
-                                                style="font-size: 10px;">Edit</span></button></a>
-                                </td>
-                                <td><button id="<?php echo $post['id'] ?>"
-                                        class="px-2 py-1 bg-red-200 rounded-lg flex space-x-1 items-center"
-                                        onclick='deleteid(this)'><img src="../assets/images/delete 4.png" alt=""
-                                            style="width:15px;"><span class="font-semibold"
-                                            style="font-size: 10px;">Delete</span></button></td>
 
                             </tr>
                             <?php endforeach;?>
@@ -158,7 +142,7 @@ tbody tr td {
             scrollX: true,
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "E.g. John Doe"
+                searchPlaceholder: "E.g. Don Julio"
             }
         });
     })

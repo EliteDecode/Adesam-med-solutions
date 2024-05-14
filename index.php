@@ -30,18 +30,16 @@
                             </div>
                         </a>
                     </div>
-                    <div class="col-md-6 col-lg-6 mb-4">
-                        <div class="p-3 bg-white rounded-lg shadow-md flex flex-col items-center">
-                            <h1 class="mb-4 font-bold text-2xl">Shooters</h1>
-                            <img src="assets/images/beers.png" alt="" width="40%" />
+                    <a href="shooters_bars.php">
+
+                        <div class="col-md-6 col-lg-6 mb-4">
+                            <div class="p-3 bg-white rounded-lg shadow-md flex flex-col items-center">
+                                <h1 class="mb-4 font-bold text-2xl">Shooters</h1>
+                                <img src="assets/images/beers.png" alt="" width="40%" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-6 mb-4">
-                        <div class="p-3 bg-white rounded-lg shadow-md flex flex-col items-center">
-                            <h1 class="mb-4 font-bold text-2xl">Inventory</h1>
-                            <img src="assets/images/inventory.png" alt="" width="40%" />
-                        </div>
-                    </div>
+                    </a>
+
                 </div>
             </div>
         </div>

@@ -104,7 +104,8 @@ tbody tr td {
                                 <th scope="col">S/N</th>
                                 <th scope="col">Product</th>
                                 <th scope="col">Category</th>
-                                <th scope="col">Quantity</th>
+                                <th scope="col">Quantity/Ounce</th>
+                                <th scope="col">Quantity/Bottles</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Price/can</th>
                                 <th scope="col">Type</th>
@@ -124,6 +125,11 @@ tbody tr td {
                                 <td><?php echo $post['Product']  ?></td>
                                 <td><?php echo $post['Category']  ?></td>
                                 <td><?php echo number_format($post['Quantity'])  ?></td>
+                                <td><?php if($post['Category'] == 'Liquor') {
+echo number_format($post['Quantity']/$post['Type']) ;
+                                }else{
+                                    echo number_format($post['Quantity']);
+                                }  ?></td>
                                 <td><?php echo $post['Price_of_drink']  ?></td>
                                 <td><?php echo $post['Price_per_can']  ?></td>
                                 <td><?php echo $post['Type'] ?></td>
@@ -164,7 +170,7 @@ tbody tr td {
             scrollX: true,
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "E.g. John Doe"
+                searchPlaceholder: "E.g. Don Julio"
             }
         });
     })

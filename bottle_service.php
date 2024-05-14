@@ -28,7 +28,7 @@ if(isset($_GET['bar'])){
         <div class="col-md-6 col-sm-12" style="background-color: #fafafa">
             <div class="container p-5">
                 <div class="logo">
-                    <img src="assets/images/logo.png" alt="" style='width: 50%' />
+                    <a href="index.php"> <img src="assets/images/logo.png" alt="" style='width: 50%' /></a>
                 </div>
                 <div class="text mt-5">
                     <h2 class="text-3xl mb-1 font-semibold">Hi <?php echo $name ?> 👋</h2>
@@ -64,12 +64,29 @@ if(isset($_GET['bar'])){
                     </div>
                     <div class="col-md-6 col-lg-6 mb-4">
 
-                        <a href="night_bottle_service.php">
+                        <?php  
+                        
+                        $current_time = date('y-m-d');
+                        $check = selectAll('night_bottle_service', ['DateReg' => $current_time, 'BarID' => $barId, 'Bar' => $bar ]);
+                        $num = count($check);
+
+                        if($num >= 1):
+                        ?>
+                        <a
+                            href="night_bottle_service.php?bar=<?php echo $bar ?>&status=saved&date=<?php echo $current_time ?>">
                             <div class="p-3 bg-white rounded-lg shadow-md flex flex-col items-center">
-                                <h1 class="mb-4 font-bold text-2xl capitalize">Night bottles</h1>
-                                <img src="assets/images/liquor.png" alt="" width="40%" />
+                                <h1 class="mb-4 font-bold text-2xl capitalize">Night-sale bottles</h1>
+                                <img src="assets/images/beer2.png" alt="" width="40%" />
                             </div>
                         </a>
+                        <?php else: ?>
+                        <a href="night_bottle_service.php?bar=<?php echo $bar ?>">
+                            <div class="p-3 bg-white rounded-lg shadow-md flex flex-col items-center">
+                                <h1 class="mb-4 font-bold text-2xl capitalize">Night-sale bottles</h1>
+                                <img src="assets/images/beer2.png" alt="" width="40%" />
+                            </div>
+                        </a>
+                        <?php endif; ?>
 
 
                     </div>

@@ -1,105 +1,58 @@
-function calculateQuantityBefore(event) {
+function calculateQuantityUsed(event) {
   var target = event.target;
   var td = target.parentNode;
   var tr = td.parentNode;
-  var quantitybefore = tr.getElementsByTagName("input")[2].value;
 
-  quantitybefore = quantitybefore * 5;
-  changeValueBefore(quantitybefore, event);
-}
+  var quantity1 = parseInt(tr.getElementsByTagName("input")[0].value);
+  var quantity2 = parseInt(tr.getElementsByTagName("input")[1].value);
+  var quantity3 = parseInt(tr.getElementsByTagName("input")[2].value);
 
-function changeValueBefore(value, event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
-  tr.getElementsByTagName("input")[2].value = value;
-  sumTotalBottles(event);
-  calculateTotal(event);
+  const total = quantity1 + quantity2 + quantity3;
+
+  changeTotalQuantityUsed(total, event);
+  calculateTestTubes(event);
   calculateProfit(event);
+  calculateTotalProfit(event);
 }
 
-//Quantity After
-function calculateQuantityAfter(event) {
+function changeTotalQuantityUsed(value, event) {
   var target = event.target;
   var td = target.parentNode;
   var tr = td.parentNode;
-  var quantityAfter = tr.getElementsByTagName("input")[3].value;
-
-  quantityAfter = quantityAfter * 2.5;
-
-  changeValueAfter(quantityAfter, event);
-}
-
-function changeValueAfter(value, event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
+  var tubeType = parseInt(tr.getElementsByTagName("select")[6].value);
   tr.getElementsByTagName("input")[3].value = value;
+  tr.getElementsByTagName("input")[4].value = value / tubeType;
+}
 
-  sumTotalBottles(event);
-  calculateTotal(event);
+function calculateTestTubes(event) {
+  var target = event.target;
+  var td = target.parentNode;
+  var tr = td.parentNode;
+  var tubeType = tr.getElementsByTagName("select")[6].value;
+  var qauntityUsed = tr.getElementsByTagName("input")[3].value;
+  tr.getElementsByTagName("input")[4].value = qauntityUsed / tubeType;
+
   calculateProfit(event);
-}
-
-//Bottles sold
-function calculateBottlesSold(event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
-
-  var bottlesSold = tr.getElementsByTagName("input")[1].value;
-
-  bottlesSold = bottlesSold * 3.1;
-
-  changeBottlesSold(bottlesSold, event);
-}
-
-function changeBottlesSold(value, event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
-  tr.getElementsByTagName("input")[1].value = value;
-
-  sumTotalBottles(event);
-  calculateTotal(event);
-  calculateProfit(event);
-}
-
-//Calculate total bottles
-
-function sumTotalBottles(event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
-
-  var bottlesBefore = parseFloat(tr.getElementsByTagName("input")[1].value);
-  var quantityBefore = parseFloat(tr.getElementsByTagName("input")[2].value);
-  var quantitiesAfter = parseFloat(tr.getElementsByTagName("input")[3].value);
-  tr.getElementsByTagName("input")[4].value =
-    bottlesBefore + quantityBefore + quantitiesAfter;
-}
-
-function calculateTotal(event) {
-  var target = event.target;
-  var td = target.parentNode;
-  var tr = td.parentNode;
-  var pricePerCan = tr.getElementsByTagName("input")[0].value;
-  var priceOfDrink = tr.getElementsByTagName("input")[5].value;
-  var totalDrinks = tr.getElementsByTagName("input")[4].value;
-
-  var grossSale = tr.getElementsByTagName("input")[6];
-  var cogUsed = tr.getElementsByTagName("input")[7];
-  grossSale.value = totalDrinks * priceOfDrink;
-  cogUsed.value = totalDrinks * pricePerCan;
+  calculateTotalProfit(event);
 }
 
 function calculateProfit(event) {
   var target = event.target;
   var td = target.parentNode;
   var tr = td.parentNode;
+  var tubeType = tr.getElementsByTagName("input")[4].value;
+  var qauntityUsed = tr.getElementsByTagName("input")[5].value;
+  tr.getElementsByTagName("input")[6].value = qauntityUsed * tubeType;
+  calculateTotalProfit(event);
+}
 
-  var grossSale = parseFloat(tr.getElementsByTagName("input")[6].value);
-  var cogUsed = parseFloat(tr.getElementsByTagName("input")[7].value);
+function calculateTotalProfit(event) {
+  const inputs = document.querySelectorAll(".total_input");
+  let sum = 0;
 
-  tr.getElementsByTagName("input")[8].value = (grossSale - cogUsed).toFixed(2);
+  for (let i = 0; i < inputs.length; i++) {
+    sum += parseFloat(inputs[i].value);
+  }
+
+  document.getElementById("TotalValue").innerHTML = sum.toFixed(2);
 }

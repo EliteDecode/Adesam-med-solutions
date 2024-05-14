@@ -31,7 +31,7 @@ if(isset($_GET['status']) && isset($_GET['date'])){
     $bar = $_GET['bar'];
     if($status == 'saved'){
         $posts = selectAll('saved_data_liquor', ['DateReg' => $date, 'BarID' => $barId, "Bar" => $bar ]);
-        $total_profit = selectOne('saved_data_liquor', ['DateReg' => $date]);
+        $total_profit = selectOne('saved_data_liquor', ['DateReg' => $date, 'BarID' => $barId]);
         $formated_date = date("F jS, Y", strtotime($date));
     }
 }else{
@@ -73,31 +73,56 @@ if(isset($_GET['status']) && isset($_GET['date'])){
     <link rel="stylesheet" href="lib/css/jquery.dataTables.min.css" />
 </head>
 
+<style>
+.logo img {
+    width: 60%
+}
+
+.link {
+    width: 50%
+}
+
+@media (min-width: 0px) and (max-width: 575px) {
+    .logo img {
+        width: 100%
+    }
+
+    #postTable {
+        width: 1000px !important;
+    }
+
+    .link {
+        width: 70%
+    }
+}
+</style>
+
 <body>
-    <div style="background-color: #fafafa" class="min-h-screen">
+    <div style="background-color: #fafafa; overflow-x: hidden" class="min-h-screen">
         <div class="container">
             <div class="header flex justify-between items-center py-2">
-                <a href="index.php">
+                <a href="index.php" class=' link'>
                     <div class="logo">
                         <img src="assets/images/logo.png" alt="" width="15px" />
                     </div>
                 </a>
-                <div class="flex space-x-4 items-center">
+                <div class="flex   space-x-4 items-center">
                     <div class="flex items-center space-x-2">
                         <i class="fa fa-user-md"></i>
                         <h2 class="text-xl mb-1 font-semibold"><?php echo $name ?></h2>
                     </div>
                     <a href="barroll.php?bar=<?php echo $bar ?>">
-                        <div class="flex items-center space-x-2">
-                            <img src="assets/images/back-arrow.png" alt="" width="25px" />
-                            <h3 class="font-semibold text-lg">Back</h3>
-                        </div>
+
+                        <img src="assets/images/back-arrow.png" alt="" width="25px" />
+
+
                     </a>
                 </div>
             </div>
             <div class="row flex justify-center">
                 <div class="col-md-12 col-lg-12 col-xl-12 " style="padding: 0% 2%">
-                    <div class="p-3 mb-2 flex bg-white items-center justify-between shadow-md rounded-lg">
+                    <div
+                        class="p-3 mb-2 flex flex-wrap space-y-3 bg-white items-center justify-between shadow-md rounded-lg">
                         <div class="flex items-center space-x-2">
                             <img src="assets/images/liquor.png" alt="" width="40px" />
                             <h3 class="font-semibold text-xl uppercase">Liquor</h3>
@@ -153,8 +178,8 @@ if(isset($_GET['status']) && isset($_GET['date'])){
 
                         </div>
                     </div>
-                    <div class="px-5 py-3 shadow-md bg-white rounded-lg border-2 border-green-100" id='msg'>
-                        <div class="flex justify-between items-center">
+                    <div class="px-2 py-3 shadow-md bg-white rounded-lg border-2 border-green-100" id='msg'>
+                        <div class="flex flex-wrap space-y-2 justify-between items-center">
                             <h2 class='pb-3 text-md font-bold'>Data recorded on <?php echo $formated_date; ?></h2>
                             <div class='flex space-x-2 items-center mb-3'>
                                 <h2 class='font-semibold'>Change measurement to :</h2>
@@ -162,148 +187,160 @@ if(isset($_GET['status']) && isset($_GET['date'])){
                                      
                                       $measurement = $_GET['measurement'];
                                       if($measurement == 'ounce'){
-                                         echo "<button class='btn font-bold btn-info' onclick='changeMeasurement(event)' id='grams'>Grams (g)</button>";
+                                         echo "<button class='btn font-bold btn-info text-sm' onclick='changeMeasurement(event)' id='grams'>Grams (g)</button>";
                                       }else{
-                                         echo "<button class='btn font-bold font-bold btn-info' onclick='changeMeasurement(event)' id='ounce'>Ounce</button>";
+                                         echo "<button class='btn font-bold font-bold btn-info text-sm' onclick='changeMeasurement(event)' id='ounce'>Ounce</button>";
                                       }
                                 } ?>
 
                             </div>
 
                         </div>
-                        <form action="" id='post-form' onsubmit='return false'>
-                            <table class="table table-hover border" id="postTable" width="100%">
-                                <thead class="" style="border: 1px solid gray !important">
-                                    <tr>
-                                        <th scope="col">S/N</th>
-                                        <th scope="col">Product</th>
-                                        <th scope="col" class='hidden'>Price per can($)</th>
-                                        <th scope="col">Bottles Sold</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Q/B</th>
-                                        <th scope="col">Q/A</th>
-                                        <th scope="col" class=''>Total Q/S</th>
-                                        <th scope="col" class='hidden'>Price($)</th>
-                                        <th scope="col" class='hidden'>Gross Sale($)</th>
-                                        <th scope="col" class='hidden'>Cog Used($)</th>
-                                        <th scope="col" class='hidden'>Profit($)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach($posts as $key=>$post): ?>
-                                    <tr>
-                                        <td><?php echo $key+1 ?></td>
-                                        <td><input type="text" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                        echo $post['Product'];
-                                              }else{
-                                                    echo $post['Product'];
-                                                }  ?>' readonly name='product[]'></td>
-                                        <td class="hidden">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                            echo $post['Price_per_can'];
-                                              }else{
-                                                    echo $post['Price_per_can'];
-                                                }  ?>' placeholder="$2" readonly name='price_per_can[]' />
-                                        </td>
-                                        <td class="">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Bottles_sold'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' placeholder="Bottles sold" onblur="calculateBottlesSoldK(event)"
-                                                name='bottles_sold[]' />
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Category'];
-                                              }else{
-                                                echo $post['Type'];
-                                                }  ?>' placeholder="Category" name='category[]' readonly />
+                        <div style='overflow:scroll'>
 
-                                        </td>
-                                        <td class="">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Quantity_before'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' placeholder="Quantity before"
-                                                onblur="calculateQuantityBeforeK(event)" name='quantity_before[]' />
-                                        </td>
-                                        <td class="">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Quantity_after'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' placeholder="Quantity after"
-                                                onblur="calculateQuantityAfterK(event)" name='quantity_after[]' />
-                                        </td>
-                                        <td class="">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Total_quantity'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' placeholder="Total quantity sold"
-                                                onchange="calculateTotal(event)" readonly name='totalq_sold[]' />
-                                        </td>
-                                        <td class="hidden">
-                                            <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Price_of_drink'];
-                                              }else{
+                            <form action="" id='post-form' onsubmit='return false'>
+                                <table class="table table-hover border table-responsive" id="postTable" width="100%">
+                                    <thead class="" style="border: 1px solid gray !important">
+                                        <tr>
+                                            <th scope="col">S/N</th>
+                                            <th scope="col">Product</th>
+                                            <th scope="col" class='hidden'>Price per can($)</th>
+                                            <th scope="col">Empty Bottles</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Q/B</th>
+                                            <th scope="col">Q/A</th>
+                                            <th scope="col" class='hidden'>Total Q/S</th>
+                                            <th scope="col" class='hidden'>Price($)</th>
+                                            <th scope="col" class='hidden'>Gross Sale($)</th>
+                                            <th scope="col" class='hidden'>Cog Used($)</th>
+                                            <th scope="col" class='hidden'>Profit($)</th>
+                                            <th scope="col" class=''>Q/L</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach($posts as $key=>$post): ?>
+                                        <tr>
+                                            <td><?php echo $key+1 ?></td>
+                                            <td><input type="text" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                            echo $post['Product'];
+                                                  }else{
+                                                        echo $post['Product'];
+                                                    }  ?>' readonly name='product[]'></td>
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                echo $post['Price_per_can'];
+                                                  }else{
+                                                        echo $post['Price_per_can'];
+                                                    }  ?>' placeholder="$2" readonly name='price_per_can[]' />
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Bottles_sold'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' placeholder="Bottles sold"
+                                                    onblur="calculateBottlesSoldK(event)" name='bottles_sold[]' />
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Category'];
+                                                  }else{
+                                                    echo $post['Type'];
+                                                    }  ?>' placeholder="Category" name='category[]' readonly />
+
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Quantity_before'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' placeholder="Quantity before"
+                                                    onblur="calculateQuantityBeforeK(event)" name='quantity_before[]' />
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Quantity_after'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' placeholder="Quantity after"
+                                                    onblur="calculateQuantityAfterK(event)" name='quantity_after[]' />
+                                            </td>
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Total_quantity'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' placeholder="Total quantity sold"
+                                                    onchange="calculateTotal(event)" readonly name='totalq_sold[]' />
+                                            </td>
+                                            <td class="hidden">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
                                                     echo $post['Price_of_drink'];
-                                                }  ?>' placeholder="$6.8" readonly name='price_of_drink[]' />
-                                        </td>
+                                                  }else{
+                                                        echo $post['Price_of_drink'];
+                                                    }  ?>' placeholder="$6.8" readonly name='price_of_drink[]' />
+                                            </td>
 
-                                        <td class='hidden'>
-                                            <input type="number" class="form-control" name="gross_sale[]"
-                                                class="form-control" oninput="" readonly value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Gross_sale'];
-                                              }else{
+                                            <td class='hidden'>
+                                                <input type="number" class="form-control" name="gross_sale[]"
+                                                    class="form-control" oninput="" readonly value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Gross_sale'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' />
+                                            </td>
+                                            <td class='hidden'>
+                                                <input type="number" name="cog_used[]" class="form-control" readonly
+                                                    value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Cog_used'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' />
+                                            </td>
+                                            <td class='hidden'>
+                                                <input type="number" name="total[]" class="form-control total_input"
+                                                    readonly value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Profit'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' />
+                                            </td>
+                                            <td class='hidden'>
+                                                <input type="number" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['id'];
+                                                  }else{
                                                     echo '0';
-                                                }  ?>' />
-                                        </td>
-                                        <td class='hidden'>
-                                            <input type="number" name="cog_used[]" class="form-control" readonly value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Cog_used'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' />
-                                        </td>
-                                        <td class='hidden'>
-                                            <input type="number" name="total[]" class="form-control total_input"
-                                                readonly value='<?php if(isset($_GET['status'])) {
-                                                echo $post['Profit'];
-                                              }else{
-                                                    echo '0';
-                                                }  ?>' />
-                                        </td>
-                                        <td class='hidden'>
-                                            <input type="number" value='<?php if(isset($_GET['status'])) {
-                                                echo $post['id'];
-                                              }else{
-                                                echo '0';
-                                                }  ?>' name="id[]" class="form-control  total_input" readonly
-                                                id='total_profit' />
-                                        </td>
-                                    </tr>
-                                    <?php endforeach; ?>
+                                                    }  ?>' name="id[]" class="form-control  total_input" readonly
+                                                    id='total_profit' />
+                                            </td>
+                                            <td class="">
+                                                <input type="number" class="form-control" value='<?php if(isset($_GET['status'])) {
+                                                    echo $post['Quantity_last_bottle'];
+                                                  }else{
+                                                        echo '0';
+                                                    }  ?>' placeholder="" name='quantity_last_bottle[]' />
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
 
-                                    <td colspan='9' class='font-bold hidden'></td>
-                                    <td colspan='' class='font-bold aliign-right hidden'>Total ($):</td>
-                                    <td colspan='' class='font-bold aliign-right flex border hidden'>
-                                        $<div id='TotalValue' class='  w-100'>
-                                            <?php if(isset($_GET['status'])){ echo $total_profit['Total_profit']; }else{ echo '0';}?>
-                                        </div>
+                                        <td colspan='9' class='font-bold hidden'></td>
+                                        <td colspan='' class='font-bold aliign-right hidden'>Total ($):</td>
+                                        <td colspan='' class='font-bold aliign-right flex border hidden'>
+                                            $<div id='TotalValue' class='  w-100'>
+                                                <?php if(isset($_GET['status'])){ echo $total_profit['Total_profit']; }else{ echo '0';}?>
+                                            </div>
 
-                                    </td>
-                                    <input type="hidden" value='<?php echo $barId ?>' name="" class="form-control  "
-                                        readonly id='barId' />
-                                    <input type="hidden" value='<?php echo $bar ?>' name="" class="form-control  "
-                                        readonly id='bar' />
-                                    <input type="hidden" value='<?php echo $measurement ?>' name=""
-                                        class="form-control  " readonly id='measurement' />
-                                </tbody>
-                            </table>
-                        </form>
+                                        </td>
+                                        <input type="hidden" value='<?php echo $barId ?>' name="" class="form-control  "
+                                            readonly id='barId' />
+                                        <input type="hidden" value='<?php echo $bar ?>' name="" class="form-control  "
+                                            readonly id='bar' />
+                                        <input type="hidden" value='<?php echo $measurement ?>' name=""
+                                            class="form-control  " readonly id='measurement' />
+                                    </tbody>
+                                </table>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -319,7 +356,7 @@ if(isset($_GET['status']) && isset($_GET['date'])){
             scrollX: true,
             language: {
                 search: "_INPUT_",
-                searchPlaceholder: "E.g. John Doe",
+                searchPlaceholder: "E.g. Don Julio",
             },
         });
     });
@@ -333,12 +370,9 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var tr = td.parentNode;
         var quantitybefore = tr.getElementsByTagName("input")[4].value;
         var category = tr.getElementsByTagName("input")[3].value;
-        if (measurement == 'grams') {
-            changeValueBefore(quantitybefore, event);
-        } else {
-            quantitybefore = quantitybefore / category;
-            changeValueBefore(quantitybefore, event);
-        }
+
+        changeValueBefore(quantitybefore, event)
+
     }
 
     function changeValueBefore(value, event) {
@@ -362,12 +396,12 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var category = tr.getElementsByTagName("input")[3].value;
         changeValueAfter(quantityAfter, event);
 
-        if (measurement == 'grams') {
-            changeValueAfter(quantityAfter, event);
-        } else {
-            quantityAfter = quantityAfter / category;
-            changeValueAfter(quantityAfter, event);
-        }
+        // if (measurement == 'grams') {
+        //     changeValueAfter(quantityAfter, event);
+        // } else {
+        //     quantityAfter = quantityAfter / category;
+        //     changeValueAfter(quantityAfter, event);
+        // }
     }
 
 
@@ -424,9 +458,16 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var tr = td.parentNode;
         var category = tr.getElementsByTagName("input")[3].value;
         var bottlesBefore = parseFloat(tr.getElementsByTagName("input")[2].value);
-        var quantityBefore = parseFloat(tr.getElementsByTagName("input")[4].value);
-        var quantitiesAfter = parseFloat(tr.getElementsByTagName("input")[5].value);
-        tr.getElementsByTagName("input")[6].value = (bottlesBefore + (quantityBefore - quantitiesAfter));
+        if (measurement == 'grams') {
+            var quantityBefore = parseFloat((tr.getElementsByTagName("input")[4].value / 28) / category);
+            var quantitiesAfter = parseFloat((tr.getElementsByTagName("input")[5].value / 28) / category);
+            tr.getElementsByTagName("input")[6].value = (bottlesBefore + (quantityBefore - quantitiesAfter));
+        } else {
+
+            var quantityBefore = parseFloat(tr.getElementsByTagName("input")[4].value / category);
+            var quantitiesAfter = parseFloat(tr.getElementsByTagName("input")[5].value / category);
+            tr.getElementsByTagName("input")[6].value = (bottlesBefore + (quantityBefore - quantitiesAfter));
+        }
     }
 
     function calculateTotal(event) {
@@ -436,11 +477,22 @@ if(isset($_GET['status']) && isset($_GET['date'])){
         var pricePerCan = tr.getElementsByTagName("input")[1].value;
         var priceOfDrink = tr.getElementsByTagName("input")[7].value;
         var totalDrinks = tr.getElementsByTagName("input")[6].value;
+        var category = tr.getElementsByTagName("input")[3].value;
 
         var grossSale = tr.getElementsByTagName("input")[8];
         var cogUsed = tr.getElementsByTagName("input")[9];
-        grossSale.value = totalDrinks * priceOfDrink;
-        cogUsed.value = totalDrinks * pricePerCan;
+
+        if (measurement == 'grams') {
+            grossSale.value = ((totalDrinks / 28) / category) * priceOfDrink;
+            cogUsed.value = ((totalDrinks / 28) / category) * pricePerCan;
+
+
+        } else {
+            grossSale.value = (totalDrinks / category) * priceOfDrink;
+            cogUsed.value = (totalDrinks / category) * pricePerCan;
+
+        }
+
     }
 
     function calculateProfit(event) {
@@ -450,6 +502,9 @@ if(isset($_GET['status']) && isset($_GET['date'])){
 
         var grossSale = parseFloat(tr.getElementsByTagName("input")[8].value);
         var cogUsed = parseFloat(tr.getElementsByTagName("input")[9].value);
+
+        console.log(grossSale)
+        console.log(cogUsed)
 
         tr.getElementsByTagName("input")[10].value = parseFloat((grossSale - cogUsed)).toFixed(2);
     }
@@ -507,7 +562,8 @@ if(isset($_GET['status']) && isset($_GET['date'])){
                         table_data: tableData,
                         totalProfit,
                         barId,
-                        bar
+                        bar,
+                        measurement
                     },
                     success: function(response) {
                         // $('#msg').html(response);

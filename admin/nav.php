@@ -149,6 +149,8 @@
             </div>
 
 
+            <a href="logout.php" class=''> <button class='btn btn-danger btn-sm font-bold'>Logout</button></a>
+
         </div>
     </section>
 

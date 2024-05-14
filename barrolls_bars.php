@@ -12,7 +12,7 @@ require('admin/includes/database/db_controllers.php');
         <div class="col-md-6 col-sm-12" style="background-color: #fafafa">
             <div class="container p-5">
                 <div class="logo">
-                    <img src="assets/images/logo.png" alt="" style='width: 50%' />
+                    <a href="index.php"> <img src="assets/images/logo.png" alt="" style='width: 50%' /></a>
                 </div>
                 <div class="text mt-4">
                     <h2 class="text-5xl font-semibold">Welcome Back!</h2>
@@ -27,7 +27,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar1" class='col-md-4 mb-5'>
+                    <a href="login.php?bar=bar1&route=barrolls" class='col-md-4 mb-5'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 1</h2>
@@ -42,7 +42,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar2" class='col-md-4 mb-5'>
+                    <a href="login.php?bar=bar2&route=barrolls" class='col-md-4 mb-5'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 2</h2>
@@ -57,7 +57,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar3" class='col-md-4 mb-5'>
+                    <a href="login.php?bar=bar3&route=barrolls" class='col-md-4 mb-5'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 3</h2>
@@ -72,7 +72,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar4" class='col-md-4 mb-5'>
+                    <a href="login.php?bar=bar4&route=barrolls" class='col-md-4 mb-5'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 4</h2>
@@ -87,7 +87,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar5" class='col-md-4'>
+                    <a href="login.php?bar=bar5&route=barrolls" class='col-md-4'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 5</h2>
@@ -102,7 +102,7 @@ require('admin/includes/database/db_controllers.php');
                         </div>
                     </a>
                     <?php else: ?>
-                    <a href="login.php?bar=bar6" class='col-md-4'>
+                    <a href="login.php?bar=bar6&route=barrolls" class='col-md-4'>
                         <div class="  flex rounded-md items-center justify-center bg-white shadow-md hover:shadow-none cursor-pointer  p-3"
                             style='height: 15vh;'>
                             <h2 class='flex justify-center font-bold text-lg uppercase'>Bar 6</h2>

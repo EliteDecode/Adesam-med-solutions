@@ -91,6 +91,58 @@ function selectSum($table, $value, $conditions=[]){
   } 
 }
 
+function selectSumMultiple($table, $P1, $T1, $P2, $T2, $P3, $T3, $conditions=[]){
+
+  global $conn; 
+  $sql = "SELECT 
+  SUM(quantity) AS total_quantity
+FROM (
+  SELECT P1_Quantity AS quantity
+  FROM $table
+  WHERE P1_Product = `$P1` AND P1_Category = `$T1`
+  
+  UNION ALL
+  
+  SELECT P2_Quantity AS quantity
+  FROM $table
+  WHERE P2_Product = `$P2` AND P2_Category = `$T2`
+  
+  UNION ALL
+  
+  SELECT P3_Quantity AS quantity
+  FROM $table
+  WHERE P3_Product = `$P3` AND P3_Category = `$T3`
+) AS subquery;
+";
+  if (empty($conditions)) {
+        // //preparing a prepared statement
+          $stmt = mysqli_stmt_init($conn);
+          mysqli_stmt_prepare($stmt, $sql);
+          mysqli_stmt_execute($stmt);
+          $result = $stmt ->get_result();
+          $records = $result->fetch_all(MYSQLI_ASSOC);
+          return $records;
+          mysqli_stmt_close($stmt);
+  }else{
+
+      $i = 0;
+    foreach ($conditions as $key => $value) {
+      if ($i===0) {
+         $sql = $sql . " WHERE $key =?";
+      }else{
+          $sql = $sql . " AND $key = ? ";
+      }
+      $i++;
+    }
+ 
+    $stmt = executeQuery($sql, $conditions);
+    $result = $stmt ->get_result()->fetch_all(MYSQLI_ASSOC);
+    return $result;
+   
+  } 
+}
+
+
 function selectSumDouble($table, $val, $val2, $conditions=[]){
 
   global $conn; 

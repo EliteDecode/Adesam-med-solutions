@@ -8,7 +8,7 @@ $adminId = $_POST["adminId"];
 $password = $_POST["password"];
 
                 
-$query = "SELECT * FROM `admin` WHERE AdminId = '".$adminId."'";
+$query = "SELECT * FROM `admin` WHERE Verified = 1 AND AdminId = '".$adminId."' ";
 $result = mysqli_query($conn, $query);
 
 if (mysqli_num_rows($result) >= 1) {
